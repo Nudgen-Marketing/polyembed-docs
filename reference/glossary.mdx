@@ -1,0 +1,23 @@
+---
+title: "Glossary"
+description: "Terms used across PolyEmbed and Polymarket."
+icon: "book"
+---
+
+| Term | Meaning |
+| --- | --- |
+| **Builder code** | PolyEmbed's registered Polymarket builder identifier. Every order from a widget carries it, which is how trades are attributed and fees are earned |
+| **Builder fee** | The fee Polymarket attributes to a builder for orders it routes. You keep 70% of it on trades from your pages |
+| **CLOB** | Polymarket's central limit order book, where orders are matched |
+| **Deposit wallet** | The reader's Polymarket wallet that holds pUSD and shares. Derived from the reader's signer and deployed gaslessly |
+| **Embed key** | A versioned key used to sign snippets to your domain. Rotate it to invalidate old signed snippets |
+| **Embed session** | A short-lived token issued per page view that authorizes the widget's trading requests |
+| **Geoblock** | Polymarket's check of whether trading is allowed in the reader's region |
+| **Impression** | One render of a widget with a matched market |
+| **Interaction rate** | Trade-button clicks plus Polymarket clicks, divided by impressions |
+| **Market order** | An order that fills immediately at the best available prices. In the widget, it's limited to 5% slippage and any unfilled remainder is cancelled |
+| **Owner signer** | The wallet the reader controls, such as a browser wallet or an email wallet. It signs orders for the deposit wallet |
+| **pUSD** | The dollar-pegged token Polymarket trades settle in, on Polygon |
+| **Relayer** | Polymarket's service that submits transactions and pays gas on the reader's behalf |
+| **Share** | A position in one outcome. Pays $1 if the outcome happens, $0 if it doesn't |
+| **Widget** | A PolyEmbed embed tied to one verified domain. One widget serves every article on the domain |

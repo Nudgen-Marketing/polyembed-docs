@@ -1,0 +1,56 @@
+---
+title: "Analytics events"
+description: "The first-party events PolyEmbed records for widgets, trading and funding."
+icon: "list-check"
+---
+
+PolyEmbed records these events in its own database to power your [Analytics](/publishers/analytics) and to attribute trades for [earnings](/publishers/earnings). Widget-load events are also sent to PolyEmbed's Google Analytics property with `publisher_id`, `domain_id`, `widget_id`, `market_id`, `score` and `failure_code` parameters.
+
+## Widget and matching
+
+| Event | When |
+| --- | --- |
+| `market_search_performed` | The widget searched Polymarket for an article |
+| `market_matched` | A market cleared the threshold. Includes the score breakdown |
+| `market_search_failed` | No market cleared the threshold; the widget collapsed |
+| `widget_impression` | The widget rendered a matched market. Counts as an impression |
+| `widget_loaded` | The widget finished loading |
+| `widget_authorization_failed` | The widget, domain or publisher was inactive, or the page wasn't on the verified domain |
+| `market_viewed` | A reader viewed the market in the widget |
+| `embed_error` | The widget hit an error. Counts toward **Widget errors** |
+
+## Reader actions
+
+| Event | When |
+| --- | --- |
+| `open_polymarket_clicked` | A reader followed the link to Polymarket. Counts as a Polymarket click |
+| `trade_button_clicked` | A reader started a trade. Counts toward interaction rate |
+| `trading_unavailable` | Trading was off for the reader, for example because of their region |
+| `owner_signer_connect_clicked` | A reader started connecting a wallet |
+| `owner_signer_connected` | A wallet connected |
+| `deposit_wallet_created` | The reader's Polymarket deposit wallet was set up |
+
+## Funding
+
+| Event | When |
+| --- | --- |
+| `funding_clicked` | A reader opened **Add funds** |
+| `funding_address_copied` | A reader copied a deposit address |
+
+## Orders
+
+| Event | When |
+| --- | --- |
+| `order_ticket_opened` | The order form opened |
+| `order_reviewed` | A reader reviewed an order |
+| `order_signed` | The reader signed the order in their wallet |
+| `order_submitted` | The order was sent to Polymarket |
+| `order_matched` | Polymarket filled the order |
+| `order_failed` | Polymarket rejected the order, or it failed to submit |
+| `position_sold` | A reader sold shares |
+
+## Dashboard
+
+| Event | When |
+| --- | --- |
+| `widget_created` | You created a widget |

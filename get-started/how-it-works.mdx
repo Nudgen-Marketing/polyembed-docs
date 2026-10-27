@@ -1,0 +1,59 @@
+---
+title: "How it works"
+description: "What happens between an article page load and a matched, tradable Polymarket market."
+icon: "diagram-project"
+---
+
+PolyEmbed has two sides: a publisher dashboard at [polyembed.io](https://polyembed.io) where you verify domains and create widgets, and the widget itself, served from `iframe.polyembed.io` inside your articles.
+
+## On every page load
+
+<Steps>
+  <Step title="Your page loads the iframe">
+    Your article template renders the PolyEmbed iframe with the article's title and keywords in the URL.
+  </Step>
+  <Step title="PolyEmbed authorizes the request">
+    The widget reads the page's origin from the browser's `Referer` header and checks that the widget is active, your publisher account is active, and the page is on your verified domain or one of its subdomains. If any check fails, the widget collapses.
+  </Step>
+  <Step title="PolyEmbed searches Polymarket">
+    The title and each comma-separated keyword become search queries against Polymarket's public market data. Only active, open markets are considered.
+  </Step>
+  <Step title="Markets are scored">
+    Each candidate gets a score built mostly from relevance to your title and keywords, with smaller weight for liquidity, volume, how soon the market resolves and category. Markets with effectively decided odds, or that aren't accepting orders, are ranked lower. See [Market matching](/publishers/market-matching).
+  </Step>
+  <Step title="The widget shows the best match, or collapses">
+    If the top market clears the relevance threshold, the widget shows its question, odds and trade controls, and tells your page how tall to be. If nothing clears the threshold, the widget tells your page to hide the frame, so your layout never shows an empty box.
+  </Step>
+</Steps>
+
+## When a reader trades
+
+<Steps>
+  <Step title="Region check">
+    The widget asks Polymarket whether trading is available in the reader's region. If it's blocked, or the check can't complete, the reader sees odds only.
+  </Step>
+  <Step title="Sign in">
+    The reader connects a browser wallet, or continues with email. The reader always owns the signer; PolyEmbed never holds their keys.
+  </Step>
+  <Step title="Deposit wallet">
+    Polymarket's SDK derives the reader's Polymarket deposit wallet and deploys it through Polymarket's gasless relayer.
+  </Step>
+  <Step title="Fund and trade">
+    The reader funds the deposit wallet with pUSD through a bridge address, enables trading once, and places market orders. Orders go to Polymarket's order book with PolyEmbed's registered builder code.
+  </Step>
+</Steps>
+
+See [Trading in the widget](/readers/trading) for the reader's view.
+
+## How you get paid
+
+Polymarket attributes trades carrying PolyEmbed's builder code. PolyEmbed reconciles those trades against Polymarket's builder-trades feed, attributes each one to the widget and article it came from, and pays you 70% of the builder fees, Net-30. See [Earnings and payouts](/publishers/earnings).
+
+## Hosts
+
+| Host | Purpose |
+| --- | --- |
+| `polyembed.io` | Landing page, publisher dashboard, reader portfolio, policies |
+| `iframe.polyembed.io` | The widget iframe and the APIs it calls |
+| `docs.polyembed.io` | This documentation |
+| `demo.polyembed.io` | Demo newsroom running the production widget |

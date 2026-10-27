@@ -1,0 +1,37 @@
+---
+title: "Analytics"
+description: "Impressions, Polymarket clicks, interaction rate and widget errors for your widgets."
+icon: "chart-line"
+---
+
+The **Analytics** page shows all-time totals across your widgets. Numbers update as soon as a widget renders on one of your live pages.
+
+## Metrics
+
+| Metric | Definition |
+| --- | --- |
+| **Impressions** | Times a widget rendered with a matched market on your pages |
+| **Polymarket clicks** | Readers who followed the widget's link to the market on Polymarket |
+| **Interaction rate** | Trade-button clicks plus Polymarket clicks, divided by impressions |
+| **Widget errors** | Errors the widget reported while loading or trading. "Check your embed code" appears when this is above zero |
+| **Top widgets** | Your widgets ranked by impressions |
+
+The **Overview** page shows the headline numbers, including interaction rate and how many verified domains you have.
+
+## What counts as an impression
+
+An impression is recorded when the widget finds a market above the matching threshold and renders it. Page loads where the widget collapses are recorded as failed searches, not impressions. Loads from domains the widget isn't authorized for are recorded as authorization failures. They don't count as impressions, so a widget pasted on an unverified site shows no traffic.
+
+## Attributed volume and earnings
+
+Trades placed from your widgets are attributed to the widget, the article's domain and the matched market. Attributed trades feed your revenue share on the [Earnings](/publishers/earnings) page.
+
+## Google Analytics
+
+The widget also sends events such as `widget_impression`, `market_matched` and `market_search_failed` to PolyEmbed's own Google Analytics property. They aren't sent to yours. For the full list of events PolyEmbed records, see [Analytics events](/reference/analytics-events).
+
+## Reading the numbers
+
+- **Many failed searches, few impressions**: your titles or keywords rarely match live markets. Try more specific keywords, or place the widget only in sections that cover topics Polymarket lists, such as politics, economics, crypto and sports.
+- **Widget errors rising**: check that the snippet is on your verified domain and that the iframe keeps `referrerpolicy="strict-origin-when-cross-origin"`. See [Troubleshooting](/reference/troubleshooting).
+- **High impressions, low interaction**: try placing the widget higher in the article, closer to the paragraph that discusses the outcome.

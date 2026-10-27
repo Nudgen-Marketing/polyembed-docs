@@ -1,0 +1,31 @@
+---
+title: "Domain verification"
+description: "Exact formats and checks for DNS, meta tag and file verification."
+icon: "badge-check"
+---
+
+All three methods publish the same token. Tokens look like `pub_<publisherId>_<32 hex characters>`. You pick one method; you don't need all three.
+
+| Method | Where | Exact value | How PolyEmbed checks |
+| --- | --- | --- | --- |
+| `dns` | TXT record on the domain itself | `pm-widget-verification=<token>` | Public DNS lookup through Google DNS. Passes if any TXT record on the name contains the token |
+| `meta` | `<head>` of `https://<domain>` | `<meta name="pm-widget-verification" content="<token>" />` | Fetches the homepage over HTTPS. Passes if the HTML contains the tag exactly as shown |
+| `file` | `https://<domain>/.well-known/polyframe-verification.txt` | `<token>` (nothing else) | Fetches the file over HTTPS. Passes if the trimmed body equals the token |
+
+## Rules
+
+- Checks use HTTPS and don't follow redirects. The meta and file URLs must return `200` directly.
+- Each check times out after five seconds.
+- Requests come from the user agent `polyembed-domain-verifier/1.0`. Allow it through bot protection or a firewall if checks fail.
+- For the meta method, the tag must appear in the HTML your server returns, with the attributes in the order `name` then `content`.
+- Verification covers the domain and all of its subdomains. Verifying `www.example.com` doesn't cover `example.com`.
+- Each domain belongs to one publisher account.
+- You must accept the Publisher Terms before running a check.
+
+## Domain statuses
+
+| Status | Meaning |
+| --- | --- |
+| `pending` | Added; waiting for a successful check |
+| `verified` | Ownership confirmed. Widgets can render here |
+| Suspended | Disabled after review. Widgets on this domain collapse |

@@ -1,0 +1,71 @@
+---
+title: "Embed URL"
+description: "Every path segment and query parameter the PolyEmbed widget iframe accepts."
+icon: "link"
+---
+
+```text
+https://iframe.polyembed.io/embed/{widgetId}?title=…&keywords=…
+```
+
+## Path
+
+<ParamField path="widgetId" type="string" required>
+  Your widget ID, from the widget page in the dashboard. Use `demo-widget` for the public demo widget, which renders on any site and doesn't record analytics.
+</ParamField>
+
+## Query parameters
+
+<ParamField query="title" type="string" required>
+  The article headline, URL-encoded. Used as a search query and for title similarity, which carries 40% of the match score. If the title is missing, matching relies on keywords alone.
+</ParamField>
+
+<ParamField query="keywords" type="string">
+  Comma-separated keywords, URL-encoded. Each keyword becomes its own search query (up to five queries including the title). Carries 30% of the match score.
+
+  Example: `federal%20reserve%2Cinterest%20rates`
+</ParamField>
+
+<ParamField query="debug" type="boolean" default="false">
+  Set to `true` to show a diagnostic panel with the score breakdown, and to show the candidate list instead of collapsing when nothing matches. Always available on `demo-widget`. On your own widgets, debug output is only shown when PolyEmbed has enabled debugging for the environment; otherwise the parameter is ignored.
+</ParamField>
+
+<ParamField query="d" type="string">
+  Signed snippets only. The domain the snippet was signed for. Copy from the dashboard; don't edit.
+</ParamField>
+
+<ParamField query="kv" type="string">
+  Signed snippets only. The embed key version. Changes when you [rotate the embed key](/publishers/embed-security#rotate-the-embed-key).
+</ParamField>
+
+<ParamField query="sig" type="string">
+  Signed snippets only. Signature over the widget ID, domain and key version.
+</ParamField>
+
+## Iframe attributes
+
+| Attribute | Value | Required |
+| --- | --- | --- |
+| `id` | `polyembed-{widgetId}` (any unique ID) | Yes, for the listener script |
+| `width` | `100%` | Recommended |
+| `height` | `260` | Recommended initial height |
+| `style` | `border:0;max-width:560px;` | Recommended |
+| `loading` | `lazy` | Recommended |
+| `allow` | `clipboard-write` | Yes, for copy buttons |
+| `referrerpolicy` | `strict-origin-when-cross-origin` | Yes, for domain authorization |
+| `title` | `Prediction market odds` | Yes, for accessibility |
+
+## Hosts
+
+Snippets use `https://iframe.polyembed.io`. Older snippets that point at `https://polyembed.io/embed/…` keep working; you don't need to change them. If you do switch, update the iframe `src` and keep the listener script as is: it reads the origin from the iframe's `src`.
+
+## Behavior
+
+| Condition | Result |
+| --- | --- |
+| Market found above threshold | Renders and sends `polyembed:resize` |
+| No market above threshold | Sends `polyembed:hide` |
+| Widget, domain or publisher inactive, or page not on the verified domain | Sends `polyembed:hide` |
+| Signature missing or invalid, when signing is required | Sends `polyembed:hide` |
+
+The embed page is served with `frame-ancestors *` so it can be framed by any site, and with `noindex` so search engines rank your article rather than the widget.

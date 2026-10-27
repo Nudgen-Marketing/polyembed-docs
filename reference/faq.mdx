@@ -1,0 +1,63 @@
+---
+title: "FAQ"
+description: "Common questions from publishers and readers."
+icon: "circle-question"
+---
+
+## Publishers
+
+<AccordionGroup>
+  <Accordion title="Does PolyEmbed cost anything?">
+    No. PolyEmbed is free for publishers. You earn 70% of the builder fees on trades placed from your pages. See [Earnings](/publishers/earnings).
+  </Accordion>
+  <Accordion title="Can I choose which market appears on an article?">
+    No. Matching is automatic and based on each article's title and keywords. You influence it with your keywords and by choosing which templates include the widget. See [Market matching](/publishers/market-matching).
+  </Accordion>
+  <Accordion title="What happens on articles with no related market?">
+    The widget collapses to zero height. Readers see nothing, and your layout has no empty box.
+  </Accordion>
+  <Accordion title="Does the widget slow down my pages?">
+    The widget loads in a lazy iframe from its own host, so it doesn't block your page from rendering. Matching runs on PolyEmbed's servers, with search results and prices cached.
+  </Accordion>
+  <Accordion title="Does it work on subdomains?">
+    Yes. Verifying `example.com` covers `news.example.com`, `www.example.com` and every other subdomain.
+  </Accordion>
+  <Accordion title="Can I use it on more than one site?">
+    Yes. Verify each domain and create a widget for each.
+  </Accordion>
+  <Accordion title="Do I need WordPress?">
+    No. The HTML snippet works on any site. The WordPress plugin is a convenience. See [CMS templates](/install/cms-templates).
+  </Accordion>
+  <Accordion title="Can I style the widget?">
+    You control the iframe's size and placement. The widget's own styling follows Polymarket's light theme and isn't configurable yet.
+  </Accordion>
+  <Accordion title="Do readers need a Polymarket account?">
+    No. Readers connect a wallet or continue with email, and the widget sets up their Polymarket deposit wallet. If they already use Polymarket with the same wallet, their existing balance and positions appear.
+  </Accordion>
+  <Accordion title="Am I responsible for readers' trades?">
+    No. Readers trade on Polymarket with their own wallets. You're responsible for how you present the widget. See [Editorial guidelines](/publishers/editorial-guidelines).
+  </Accordion>
+</AccordionGroup>
+
+## Readers
+
+<AccordionGroup>
+  <Accordion title="Is PolyEmbed a broker or exchange?">
+    No. PolyEmbed is an interface. Orders go to Polymarket's order book, and funds stay in your own Polymarket deposit wallet.
+  </Accordion>
+  <Accordion title="Does PolyEmbed hold my funds or keys?">
+    No. You own the signer, and your funds sit in your own Polymarket deposit wallet.
+  </Accordion>
+  <Accordion title="Do I pay gas?">
+    No. Polymarket's relayer covers gas for deploying your deposit wallet, enabling trading and trading. Polymarket's trading fees still apply, and orders can include builder fees.
+  </Accordion>
+  <Accordion title="Why can't I trade?">
+    Trading may not be available in your region. See [Where trading is available](/readers/availability).
+  </Accordion>
+  <Accordion title="Where do I see my positions?">
+    At [polyembed.io/portfolio](https://polyembed.io/portfolio), or on Polymarket. See [Your portfolio](/readers/portfolio).
+  </Accordion>
+  <Accordion title="How do I withdraw?">
+    Sign in to [polymarket.com](https://polymarket.com) with the same wallet or email and use its withdrawal flow.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,45 @@
+---
+title: "Funding your wallet"
+description: "Deposit stablecoins or crypto from EVM chains, Solana, Bitcoin or Tron; deposits convert to pUSD automatically."
+icon: "wallet"
+---
+
+Trades settle in **pUSD** on Polygon. You don't need to buy pUSD yourself: the widget gives you deposit addresses that convert supported assets to pUSD in your Polymarket deposit wallet automatically.
+
+## Deposit
+
+<Steps>
+  <Step title="Open Add funds">
+    In the widget, click **Add funds**. The panel lists your deposit addresses and the minimum deposit.
+  </Step>
+  <Step title="Pick a network and copy the address">
+    | Network | Accepts |
+    | --- | --- |
+    | **EVM** | Supported assets on Polygon, Ethereum, Base, Arbitrum and other EVM chains |
+    | **Solana** | SOL and SPL stablecoins |
+    | **Bitcoin** | BTC |
+    | **Tron** | USDT (TRC-20) |
+
+    Click **Copy** next to the address you want.
+  </Step>
+  <Step title="Send from your exchange or wallet">
+    Send at least the minimum shown in the panel. While the panel is open, the widget checks the deposit every 15 seconds.
+  </Step>
+  <Step title="Wait for conversion">
+    "Deposit detected — converting to pUSD" means the bridge has your funds. Conversion usually takes a few minutes. When it's done, your balance refreshes.
+  </Step>
+</Steps>
+
+<Warning>
+  - Only send supported assets. Sending unsupported tokens can result in permanent loss.
+  - Deposit addresses credit your Polymarket deposit wallet only. Don't send funds to your sign-in wallet address and expect them to appear in the widget.
+  - Each address is specific to your deposit wallet. Don't share it as a payment address for someone else.
+</Warning>
+
+## If a deposit fails
+
+If the panel shows "The last deposit failed", contact the bridge provider's support with your transaction hash. Deposits are processed by Polymarket's bridge, not by PolyEmbed, so PolyEmbed can't reverse or recover them. See [Polymarket's documentation](https://docs.polymarket.com) for the bridge's supported assets.
+
+## Withdrawing
+
+Your funds stay in your own Polymarket deposit wallet. To withdraw, sign in to [polymarket.com](https://polymarket.com) with the same wallet or email and use its withdrawal flow.

@@ -1,0 +1,62 @@
+---
+title: "Market matching"
+description: "How PolyEmbed picks the Polymarket market for each article, and how to get better matches."
+icon: "bullseye"
+---
+
+PolyEmbed never asks you to pick markets. Each time an article loads, the widget searches Polymarket with the article's title and keywords and shows the single best match, or collapses if nothing is relevant enough.
+
+## Search
+
+The widget turns your inputs into up to five search queries: the full title, plus each comma-separated keyword. It runs them against Polymarket's public market data and keeps only markets that are active and not closed. Search results are cached for about a minute, and market prices for about 30 seconds, so odds stay current without slowing your page.
+
+## Scoring
+
+Every candidate market gets a score from 0 to 1:
+
+| Signal | Weight | What it measures |
+| --- | --- | --- |
+| Title similarity | 40% | Word overlap between your title and the market question (weighted most) and its event title |
+| Keyword match | 30% | How many of your keywords appear in the market question and event title |
+| Liquidity | 10% | Order book depth, scaled up to $1M |
+| Volume | 8% | Traded volume, scaled up to $10M |
+| Freshness | 7% | How soon the market resolves: within a week scores highest |
+| Category | 5% | Whether one of your keywords is the market's category |
+
+Relevance (title and keywords) makes up 70% of the score, so a popular but unrelated market can't outrank a direct match.
+
+Two adjustments follow:
+
+- Markets whose odds are effectively decided (Yes at 3% or less, or 97% or more) are scored lower, because they make a poor embed.
+- Markets that aren't accepting orders are scored lower.
+
+Common words like "the", "will" and "after" are ignored when comparing text.
+
+## The collapse threshold
+
+If the top market scores below **0.2**, or the search finds nothing, the widget sends a `polyembed:hide` message and your page hides the frame. Articles without a relevant market, such as recipes or obituaries, show nothing at all.
+
+## Getting better matches
+
+<AccordionGroup>
+  <Accordion title="Use specific keywords" icon="tag">
+    Names, places, tickers, teams and event names match market questions far better than section names. `federal reserve,fomc` beats `economy,news`.
+  </Accordion>
+  <Accordion title="Keep keywords to two to four" icon="list-ol">
+    Only the title and the first four keywords become searches (five queries in total). Put the most specific keyword first.
+  </Accordion>
+  <Accordion title="Write headlines that name the subject" icon="heading">
+    "Fed holds rates steady as inflation cools" matches more reliably than "A pause, for now". If your headlines are deliberately oblique, rely more on keywords.
+  </Accordion>
+  <Accordion title="Preview before you publish" icon="eye">
+    Use **Headline preview** on your widget page to see the match for any headline. See [Test your embed](/install/test-your-embed).
+  </Accordion>
+</AccordionGroup>
+
+## What readers see
+
+For the matched market, the widget shows the question, its image, Yes and No prices, and a link to the market on Polymarket. Where trading is available, it also shows trade controls. See [Trading in the widget](/readers/trading).
+
+<Note>
+  Matching is fully automatic and the same for every publisher. PolyEmbed doesn't sell placements or let anyone pin a market to your articles.
+</Note>

@@ -1,0 +1,56 @@
+---
+title: "Embed security"
+description: "How PolyEmbed keeps your widget on your domains: origin checks, signed snippets and embed key rotation."
+icon: "shield-halved"
+---
+
+## Domain authorization
+
+Every widget load is checked against your account. The widget renders only when all of these are true:
+
+- The widget is active.
+- Your publisher account is active.
+- The widget's domain is verified.
+- The embedding page's host is the verified domain or one of its subdomains.
+
+The widget learns the embedding page's origin from the `Referer` header the browser sends with the iframe request, which is why the snippet sets `referrerpolicy="strict-origin-when-cross-origin"`. If any check fails, the widget collapses, and PolyEmbed records a `widget_authorization_failed` event.
+
+This means someone who copies your snippet onto their own site gets nothing: no widget renders, and no traffic is attributed to you.
+
+## Signed snippets
+
+PolyEmbed can also sign snippets to your domain. A signed snippet carries three extra URL parameters:
+
+| Parameter | Meaning |
+| --- | --- |
+| `d` | The domain the snippet was issued for |
+| `kv` | The embed key version |
+| `sig` | A signature over the widget ID, domain and key version |
+
+When signing is on, the embed code and shortcode on your widget page include these parameters. Copy them exactly and don't edit them: a snippet with a missing or wrong signature doesn't render. If your snippet has no `d`, `kv` or `sig`, signing isn't required for your widget.
+
+## Rotate the embed key
+
+Rotate the key if a signed snippet was copied to a site you don't control.
+
+<Steps>
+  <Step title="Open the widget">
+    In **Widgets**, open the widget and find **Embed key**. It shows the current version.
+  </Step>
+  <Step title="Rotate">
+    Click **Rotate embed key**, then **Yes, rotate key**. The version number increases.
+  </Step>
+  <Step title="Update your template right away">
+    Copy the new embed code or shortcode and replace the old one everywhere. Signed snippets with the old key stop rendering immediately.
+  </Step>
+</Steps>
+
+## Trading sessions
+
+When a widget renders with trading enabled, PolyEmbed issues a short-lived embed session for that page view. The session is required for the widget's trading requests, such as signing builder-attributed requests and generating deposit addresses. Sessions last 30 minutes and extend while the reader is active, with a hard upper limit. Session issuance is rate limited per visitor.
+
+## What PolyEmbed never has
+
+- **Readers' private keys.** Readers sign with their own wallet or an email wallet they control.
+- **Readers' funds.** Funds sit in the reader's own Polymarket deposit wallet.
+- **Your site's credentials.** Verification only reads a public DNS record, meta tag or file.

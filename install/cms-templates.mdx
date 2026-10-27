@@ -1,0 +1,185 @@
+---
+title: "CMS templates"
+description: "Examples for filling the title and keywords in common CMSs, static site generators and JavaScript frameworks."
+icon: "layer-group"
+---
+
+Every example renders the same iframe and listener as the [HTML embed](/install/html-embed). Only the way the title and keywords are filled in changes. Replace `YOUR_WIDGET_ID` with the ID from your widget page.
+
+<Info>
+  If your dashboard snippet includes `d`, `kv` and `sig` parameters, keep them in the URL in every example below. See [Embed security](/publishers/embed-security).
+</Info>
+
+## Template languages
+
+<CodeGroup>
+```handlebars Ghost (post.hbs)
+{{#post}}
+<iframe id="polyembed-YOUR_WIDGET_ID"
+  src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title={{encode title}}&keywords={{#foreach tags limit="4"}}{{encode name}}{{#unless @last}},{{/unless}}{{/foreach}}"
+  width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+  allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+  title="Prediction market odds"></iframe>
+{{/post}}
+```
+
+```liquid Jekyll / Shopify (Liquid)
+<iframe id="polyembed-YOUR_WIDGET_ID"
+  src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title={{ page.title | url_encode }}&keywords={{ page.tags | slice: 0, 4 | join: ',' | url_encode }}"
+  width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+  allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+  title="Prediction market odds"></iframe>
+```
+
+```go-html-template Hugo (layouts/_default/single.html)
+<iframe id="polyembed-YOUR_WIDGET_ID"
+  src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title={{ .Title | urlquery }}&keywords={{ delimit (first 4 .Params.tags) "," | urlquery }}"
+  width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+  allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+  title="Prediction market odds"></iframe>
+```
+
+```django Django / Jinja
+<iframe id="polyembed-YOUR_WIDGET_ID"
+  src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title={{ article.title|urlencode }}&keywords={{ article.keywords|join:','|urlencode }}"
+  width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+  allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+  title="Prediction market odds"></iframe>
+```
+</CodeGroup>
+
+After each iframe, paste the listener `<script>` from your dashboard snippet unchanged.
+
+## Script tag that reads the page
+
+If you can't edit template variables, you can mount the widget from the page itself. This script turns every `<aside data-polyembed>` slot into a widget, using the slot's `data-title` and `data-keywords`, or falling back to the page's `og:title`, `<meta name="keywords">` and `document.title`. It's the approach used by the [demo news site](https://demo.polyembed.io).
+
+```html Article template
+<aside data-polyembed>
+  <div data-polyembed-frame></div>
+</aside>
+
+<script>
+  window.POLYEMBED_CONFIG = { baseUrl: "https://iframe.polyembed.io", widgetId: "YOUR_WIDGET_ID" };
+</script>
+<script src="/assets/polyembed.js" defer></script>
+```
+
+```javascript /assets/polyembed.js
+(function () {
+  var config = window.POLYEMBED_CONFIG;
+  if (!config || !config.baseUrl || !config.widgetId) return;
+
+  function meta(selector) {
+    var el = document.querySelector(selector);
+    return el ? el.getAttribute("content") || "" : "";
+  }
+
+  function mount(slot, index) {
+    var title = slot.getAttribute("data-title") || meta('meta[property="og:title"]') || document.title;
+    var keywords = slot.getAttribute("data-keywords") || meta('meta[name="keywords"]');
+    var params = new URLSearchParams({ title: title, keywords: keywords });
+
+    var frame = document.createElement("iframe");
+    frame.id = "polyembed-" + config.widgetId + "-" + index;
+    frame.src = config.baseUrl.replace(/\/+$/, "") + "/embed/" + encodeURIComponent(config.widgetId) + "?" + params;
+    frame.width = "100%";
+    frame.height = "260";
+    frame.style.border = "0";
+    frame.loading = "lazy";
+    frame.allow = "clipboard-write";
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    frame.title = "Prediction market odds";
+    var origin = new URL(frame.src).origin;
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== origin || event.source !== frame.contentWindow) return;
+      var data = event.data;
+      if (!data || typeof data.type !== "string") return;
+      if (data.type === "polyembed:hide") {
+        slot.hidden = true;
+        return;
+      }
+      if (data.type === "polyembed:resize" && data.height) {
+        slot.hidden = false;
+        frame.style.height = Math.max(120, Math.min(2000, Number(data.height) || 260)) + "px";
+      }
+    });
+
+    slot.querySelector("[data-polyembed-frame]").appendChild(frame);
+  }
+
+  document.querySelectorAll("[data-polyembed]").forEach(mount);
+})();
+```
+
+Hiding the whole `<aside>` on `polyembed:hide` also removes any heading or border you wrap around the widget.
+
+## React and Next.js
+
+```tsx PolyEmbed.tsx
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const EMBED_ORIGIN = "https://iframe.polyembed.io";
+const MIN_HEIGHT = 120;
+const MAX_HEIGHT = 2000;
+
+interface PolyEmbedProps {
+  widgetId: string;
+  title: string;
+  keywords?: string[];
+}
+
+export function PolyEmbed({ widgetId, title, keywords = [] }: PolyEmbedProps) {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    function onMessage(event: MessageEvent) {
+      const frame = frameRef.current;
+      if (!frame || event.origin !== EMBED_ORIGIN || event.source !== frame.contentWindow) return;
+      if (event.data?.type === "polyembed:hide") {
+        frame.style.display = "none";
+      } else if (event.data?.type === "polyembed:resize" && event.data.height) {
+        frame.style.display = "block";
+        frame.style.height = `${Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, Number(event.data.height)))}px`;
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  const params = new URLSearchParams({ title, keywords: keywords.slice(0, 4).join(",") });
+
+  return (
+    <iframe
+      ref={frameRef}
+      src={`${EMBED_ORIGIN}/embed/${widgetId}?${params}`}
+      width="100%"
+      height={260}
+      style={{ border: 0, maxWidth: 560 }}
+      loading="lazy"
+      allow="clipboard-write"
+      referrerPolicy="strict-origin-when-cross-origin"
+      title="Prediction market odds"
+    />
+  );
+}
+```
+
+Use it in an article page:
+
+```tsx app/news/[slug]/page.tsx
+<PolyEmbed widgetId="YOUR_WIDGET_ID" title={article.title} keywords={article.tags} />
+```
+
+## Choosing good keywords
+
+| Article | Weak keywords | Strong keywords |
+| --- | --- | --- |
+| Fed holds rates steady as inflation cools | `news,economy,markets` | `federal reserve,interest rates,fomc` |
+| Who will win the Ballon d'Or? | `sports,football` | `ballon d'or,mbappe,yamal` |
+| Bitcoin hits a new record high | `crypto,finance` | `bitcoin,btc price` |
+
+Use your CMS's tags if they're specific. If your tags are broad sections, leave keywords empty and let the title do the matching, or use a field your editors fill per story. See [Market matching](/publishers/market-matching).

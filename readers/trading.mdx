@@ -1,0 +1,70 @@
+---
+title: "Trading in the widget"
+description: "Connect a wallet, set up your Polymarket deposit wallet and buy or sell outcome shares inside an article."
+icon: "chart-candlestick"
+---
+
+A PolyEmbed widget shows a live Polymarket market related to the article you're reading. You can follow the odds, open the market on Polymarket, or trade without leaving the page.
+
+<Warning>
+  Prediction market prices can move quickly and trades can lose value. PolyEmbed routes orders to Polymarket and doesn't guarantee execution, liquidity, profitability or availability. Nothing in a widget is financial advice.
+</Warning>
+
+## Before you start
+
+- Trading must be available in your region. The widget checks with Polymarket first. See [Where trading is available](/readers/availability).
+- You need a browser wallet (such as MetaMask, Rabby or Coinbase Wallet), or an email address if the publisher's widget offers **Continue with email**.
+
+## Set up once
+
+<Steps>
+  <Step title="Connect">
+    Click **Connect browser wallet**, or **Continue with email** to create an email wallet. You own the signer either way; PolyEmbed never sees your private key.
+  </Step>
+  <Step title="Sign in to Polymarket">
+    Your wallet asks you to sign a message. This creates your Polymarket trading credentials. Signing a message doesn't move funds or cost gas.
+  </Step>
+  <Step title="Get your deposit wallet">
+    Polymarket's SDK derives your Polymarket deposit wallet from your signer and deploys it through Polymarket's gasless relayer. This is where your pUSD and shares live. If you already use Polymarket with the same signer, it's the same wallet.
+  </Step>
+  <Step title="Enable trading">
+    Click **Enable trading** and confirm in your wallet. This one-time step approves Polymarket's exchange to use your pUSD and shares. No gas is required.
+  </Step>
+  <Step title="Add funds">
+    Click **Add funds** and send a supported asset to one of your deposit addresses. It converts to pUSD automatically. See [Funding your wallet](/readers/funding).
+  </Step>
+</Steps>
+
+## Buy shares
+
+1. Choose **Buy**, then **Yes** or **No**.
+2. Enter an amount in pUSD. The amount includes fees. Click **Max** to use your whole balance.
+3. Click **Buy Yes** or **Buy No** and confirm in your wallet.
+
+The minimum order is $1. Orders are market orders: they fill immediately at the best available prices, with up to 5% slippage, and any unfilled remainder is cancelled. If the price moves further than that before your order arrives, it doesn't fill and nothing is spent.
+
+## Sell shares
+
+1. Choose **Sell** and the outcome you hold.
+2. Enter a number of shares, or click **Sell all**.
+3. Confirm in your wallet.
+
+Sells are market orders too, with the same 5% slippage limit.
+
+## Prices and outcomes
+
+Each share pays out $1 if its outcome happens and $0 if it doesn't. A Yes price of 62¢ means traders collectively give the outcome about a 62% chance. When a market resolves, winning shares can be redeemed for pUSD on [Polymarket](https://polymarket.com). Track your positions in your [portfolio](/readers/portfolio).
+
+## Errors you might see
+
+| Message | What to do |
+| --- | --- |
+| "Minimum order is $1.00." | Enter at least $1. |
+| "Not enough pUSD. Your balance is …" | [Add funds](/readers/funding) or lower the amount. |
+| "This outcome can't be traded from the widget." | Open the market on Polymarket to trade it. |
+| "Polymarket rejected the order." | The price likely moved beyond the slippage limit, or liquidity is thin. Try a smaller amount or try again. |
+| "Sign-in was closed." | Click **Continue with email** to try again. |
+
+## Privacy
+
+The widget asks Polymarket whether trading is available for your connection, and sends your orders to Polymarket. PolyEmbed records widget events, such as order submissions, to attribute trades to the publisher whose article you traded from. See the [Privacy Policy](https://polyembed.io/privacy).

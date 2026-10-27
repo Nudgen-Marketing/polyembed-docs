@@ -1,72 +1,168 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "PolyEmbed Docs",
+  "description": "Embed the live Polymarket market that matches each article, and let readers trade without leaving the page.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#1D4FFF",
+    "light": "#7C97FF",
+    "dark": "#1238D8"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://polyembed.io"
+  },
+  "fonts": {
+    "family": "Inter"
+  },
   "navigation": {
-    "pages": [
+    "tabs": [
       {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": ["index", "get-started/quickstart", "get-started/how-it-works"]
+          },
+          {
+            "group": "Publisher setup",
+            "pages": [
+              "publishers/account",
+              "publishers/verify-domain",
+              "publishers/create-widget"
+            ]
+          },
+          {
+            "group": "Install the widget",
+            "pages": [
+              "install/html-embed",
+              "install/wordpress",
+              "install/cms-templates",
+              "install/test-your-embed"
+            ]
+          },
+          {
+            "group": "Run your widgets",
+            "pages": [
+              "publishers/market-matching",
+              "publishers/analytics",
+              "publishers/earnings",
+              "publishers/embed-security",
+              "publishers/editorial-guidelines"
+            ]
+          },
+          {
+            "group": "For readers",
+            "pages": [
+              "readers/trading",
+              "readers/funding",
+              "readers/portfolio",
+              "readers/availability"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Embed reference",
+            "pages": [
+              "reference/embed-url",
+              "reference/shortcode",
+              "reference/postmessage",
+              "reference/domain-verification",
+              "reference/analytics-events"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": ["reference/troubleshooting", "reference/faq", "reference/glossary"]
+          },
+          {
+            "group": "Policies",
+            "pages": ["policies/overview"]
+          }
         ]
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "PolyEmbed",
+          "href": "https://polyembed.io",
+          "icon": "house"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "anchor": "Demo news site",
+          "href": "https://demo.polyembed.io",
           "icon": "newspaper"
+        },
+        {
+          "anchor": "Polymarket docs",
+          "href": "https://docs.polymarket.com",
+          "icon": "book-open"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:support@mintlify.com"
+        "label": "Contact",
+        "href": "mailto:contact@polyembed.io"
+      },
+      {
+        "label": "Portfolio",
+        "href": "https://polyembed.io/portfolio"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Publisher dashboard",
+      "href": "https://polyembed.io/publisher-login"
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "cursor"]
+  },
+  "seo": {
+    "metatags": {
+      "og:site_name": "PolyEmbed Docs",
+      "twitter:site": "@polyembed"
+    }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "x": "https://x.com/polyembed",
+      "website": "https://polyembed.io"
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          { "label": "Home", "href": "https://polyembed.io" },
+          { "label": "Live demo", "href": "https://polyembed.io/#demo" },
+          { "label": "Demo news site", "href": "https://demo.polyembed.io" }
+        ]
+      },
+      {
+        "header": "Publishers",
+        "items": [
+          { "label": "Publisher login", "href": "https://polyembed.io/publisher-login" },
+          { "label": "Revenue share", "href": "https://polyembed.io/policies/rev-share" }
+        ]
+      },
+      {
+        "header": "Legal",
+        "items": [
+          { "label": "Terms of Service", "href": "https://polyembed.io/terms" },
+          { "label": "Privacy Policy", "href": "https://polyembed.io/privacy" },
+          { "label": "Trading risk", "href": "https://polyembed.io/policies/trading-risk" }
+        ]
+      }
+    ]
   }
 }

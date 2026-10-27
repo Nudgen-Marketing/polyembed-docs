@@ -1,0 +1,45 @@
+---
+title: "Create a widget"
+description: "Create one widget per verified domain and get its embed code and WordPress shortcode."
+icon: "square-plus"
+---
+
+A widget ties an embed snippet to one of your verified domains. You don't pick markets for it: a single widget matches a live market to every article on that domain automatically.
+
+## Create the widget
+
+<Steps>
+  <Step title="Open Widgets">
+    In the dashboard, open **Widgets** and click **New widget**. If you haven't verified a domain yet, the dashboard sends you to **Domains** first.
+  </Step>
+  <Step title="Pick the domain">
+    Choose a verified domain. The widget renders on that domain and all of its subdomains.
+  </Step>
+  <Step title="Copy the install code">
+    The widget page shows two install methods:
+
+    - **HTML**: an iframe snippet plus a small script. See [HTML embed](/install/html-embed).
+    - **WordPress**: a `[polyembed]` shortcode for the PolyEmbed plugin. See [WordPress](/install/wordpress).
+  </Step>
+</Steps>
+
+## How many widgets do you need?
+
+One per domain is usually enough. Create more than one when you want separate numbers in **Analytics**, for example one widget for your politics template and another for sports. Each widget has its own ID, embed key and statistics.
+
+## The widget page
+
+| Section | What it does |
+| --- | --- |
+| **Add it to your article template** | The HTML snippet and WordPress shortcode, with copy buttons |
+| **Headline preview** | Type a headline to see which market it would match |
+| **Embed key** | The current key version, and a control to rotate it. See [Embed security](/publishers/embed-security) |
+
+## Widget statuses
+
+| Status | Behavior |
+| --- | --- |
+| `active` | Renders on your verified domain |
+| Suspended | Stops rendering and collapses. Contact support |
+
+A widget also stops rendering if its domain is no longer verified or your publisher account is suspended.

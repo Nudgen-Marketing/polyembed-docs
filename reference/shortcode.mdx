@@ -1,0 +1,47 @@
+---
+title: "WordPress shortcode"
+description: "Attributes for the [polyembed] shortcode provided by the PolyEmbed WordPress plugin."
+icon: "wordpress"
+---
+
+```text
+[polyembed widget_id="YOUR_WIDGET_ID" keywords="federal reserve,interest rates"]
+```
+
+## Attributes
+
+<ParamField path="widget_id" type="string" required>
+  Your widget ID. If empty, the shortcode renders nothing.
+</ParamField>
+
+<ParamField path="title" type="string" default="get_the_title()">
+  The headline to match. Defaults to the current post's title.
+</ParamField>
+
+<ParamField path="keywords" type="string" default="">
+  Comma-separated keywords. See [Market matching](/publishers/market-matching).
+</ParamField>
+
+<ParamField path="debug" type="string" default="false">
+  Set to `true` to request the debug panel. See [`debug`](/reference/embed-url#param-debug).
+</ParamField>
+
+<ParamField path="d" type="string">
+  Signed snippets only. Copy from the dashboard.
+</ParamField>
+
+<ParamField path="kv" type="string">
+  Signed snippets only. Copy from the dashboard.
+</ParamField>
+
+<ParamField path="sig" type="string">
+  Signed snippets only. Copy from the dashboard. `d`, `kv` and `sig` are only added to the URL when all three are present.
+</ParamField>
+
+<ParamField path="base_url" type="string" default="https://iframe.polyembed.io">
+  The widget host. Leave the default unless PolyEmbed support asks you to change it.
+</ParamField>
+
+## Output
+
+The shortcode renders an iframe with a unique ID, the same attributes as the [HTML embed](/install/html-embed), and an inline script that handles `polyembed:resize` and `polyembed:hide` messages from the widget's origin. All attribute values are escaped.

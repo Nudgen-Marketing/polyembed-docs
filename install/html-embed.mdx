@@ -1,0 +1,92 @@
+---
+title: "HTML embed"
+description: "Paste the PolyEmbed iframe snippet into your article template and pass each article's title and keywords."
+icon: "code"
+---
+
+The HTML snippet works on any site. Paste it once into the template that renders articles, not into individual posts.
+
+## The snippet
+
+Copy the snippet from your widget page in the dashboard. It looks like this:
+
+```html Embed code
+<iframe id="polyembed-YOUR_WIDGET_ID"
+  src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title=%7BARTICLE_TITLE%7D&keywords=%7BARTICLE_KEYWORDS%7D"
+  width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+  allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+  title="Prediction market odds"></iframe>
+<script>(function(){var f=document.getElementById("polyembed-YOUR_WIDGET_ID");if(!f)return;var o;try{o=new URL(f.src).origin}catch(e){return}window.addEventListener("message",function(e){if(e.origin!==o||e.source!==f.contentWindow||!e.data||typeof e.data.type!=="string")return;if(e.data.type==="polyembed:hide"){f.style.display="none";f.style.height="0px";return}if(e.data.type==="polyembed:resize"&&e.data.height){f.style.display="block";f.style.height=Math.max(120,Math.min(2000,Number(e.data.height)||260))+"px"}})})();</script>
+```
+
+It has two parts:
+
+- **The iframe** loads the widget for your widget ID. `title` and `keywords` tell it what the article is about.
+- **The script** listens for messages from the widget. It resizes the frame as the trade panel opens and closes, and hides the frame entirely when no relevant market matches. See [postMessage events](/reference/postmessage).
+
+<Warning>
+  Keep the script. Without it, the frame stays at 260 px: the trade panel gets cut off, and articles with no matching market show an empty space.
+</Warning>
+
+## Fill in the title and keywords
+
+Replace the two placeholders with your CMS variables:
+
+| Placeholder | Replace with | Example value |
+| --- | --- | --- |
+| `{ARTICLE_TITLE}` | The article headline | `Fed holds rates steady as inflation cools` |
+| `{ARTICLE_KEYWORDS}` | A few comma-separated tags or topics | `federal reserve,interest rates,fomc` |
+
+In the copied snippet the braces are already URL-encoded, so the placeholders appear as `%7BARTICLE_TITLE%7D` and `%7BARTICLE_KEYWORDS%7D`. Replace the whole placeholder, braces included.
+
+Both values must be URL-encoded. Most template languages have a filter for it, for example `{{ title | urlencode }}`. See [CMS templates](/install/cms-templates) for examples.
+
+The rendered `src` for one article looks like:
+
+```text
+https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title=Fed%20holds%20rates%20steady%20as%20inflation%20cools&keywords=federal%20reserve%2Cinterest%20rates%2Cfomc
+```
+
+<Tip>
+  Keywords carry about a third of the match score, and each comma-separated keyword becomes its own search. Two to four specific keywords, such as names, places, tickers or events, work better than a long list of general ones. See [Market matching](/publishers/market-matching).
+</Tip>
+
+## Placement
+
+- Put the widget where a related sidebar or "in this story" box would go: after the first few paragraphs, or at the end of the article.
+- The frame is `width="100%"` and capped at `max-width:560px`. You can change the inline style to fit your column, for example `max-width:100%` to fill a wider slot.
+- Keep `loading="lazy"` so the widget loads only when readers scroll near it.
+- Use one snippet per page. If you place more than one, give each iframe a unique `id` and point each script at its own frame.
+
+## Attributes you must keep
+
+| Attribute | Why |
+| --- | --- |
+| `referrerpolicy="strict-origin-when-cross-origin"` | The widget authorizes requests by your page's origin. With `no-referrer`, the widget can't see where it's embedded and collapses. |
+| `allow="clipboard-write"` | Lets readers copy deposit addresses and wallet addresses. |
+| `id` | The script finds the frame by ID. |
+
+## Content Security Policy
+
+If your site sends a `Content-Security-Policy` header, allow the widget host as a frame source:
+
+```text
+frame-src https://iframe.polyembed.io;
+```
+
+If your policy uses `script-src` without `'unsafe-inline'`, move the listener script into one of your own script files or add it to your policy with a nonce or hash. The widget itself needs nothing else from your page.
+
+## Single-page apps
+
+In React, Vue and other client-rendered apps, render the iframe as a component and attach the message listener in an effect. See the [React example](/install/cms-templates#react-and-next-js).
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Test your embed" icon="flask" href="/install/test-your-embed">
+    Check matches and collapse behavior before you publish.
+  </Card>
+  <Card title="Embed URL reference" icon="link" href="/reference/embed-url">
+    Every query parameter the widget accepts.
+  </Card>
+</Columns>

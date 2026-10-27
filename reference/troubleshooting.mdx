@@ -1,0 +1,76 @@
+---
+title: "Troubleshooting"
+description: "Fixes for widgets that don't appear, verification that fails, poor matches and trading problems."
+icon: "wrench"
+---
+
+## The widget doesn't appear
+
+<AccordionGroup>
+  <Accordion title="It never appears on any article">
+    1. Check that the page is on your verified domain or one of its subdomains. Staging hosts like `example.vercel.app` aren't covered.
+    2. Check the iframe keeps `referrerpolicy="strict-origin-when-cross-origin"`. Without a referrer, the widget can't authorize the page and collapses.
+    3. Check your CSP allows `frame-src https://iframe.polyembed.io`. The browser console shows a "Refused to frame" error when it doesn't.
+    4. Check the widget, domain and account are active in the dashboard.
+    5. If your snippet is signed (`d`, `kv`, `sig`), make sure it's the latest copy from the dashboard. Rotating the key invalidates older copies.
+  </Accordion>
+  <Accordion title="It appears on some articles but not others">
+    That's expected. When no live market is relevant enough, the widget collapses. Use **Headline preview** or the [demo widget with `debug=true`](/install/test-your-embed) to see scores for a headline. See [Market matching](/publishers/market-matching).
+  </Accordion>
+  <Accordion title="It works when I open the iframe URL, but not on my page (or the reverse)">
+    Your own widget only renders inside a page on your verified domain, so opening its URL directly shows nothing. The `demo-widget` renders anywhere. Test your own widget on a live article.
+  </Accordion>
+  <Accordion title="There's an empty 260 px gap">
+    The listener script is missing, or its `getElementById` doesn't match the iframe `id`. Copy the full snippet from the dashboard again.
+  </Accordion>
+  <Accordion title="The trade panel is cut off">
+    Same cause as the empty gap: without the listener, the frame can't grow. Also check that no parent element sets a fixed height with `overflow: hidden`.
+  </Accordion>
+  <Accordion title="The title shows as {ARTICLE_TITLE}">
+    The placeholder wasn't replaced. In the copied snippet it's URL-encoded as `%7BARTICLE_TITLE%7D`. Replace the whole placeholder with your CMS's title variable.
+  </Accordion>
+</AccordionGroup>
+
+## Domain verification fails
+
+<AccordionGroup>
+  <Accordion title="DNS record">
+    Wait for the record to propagate, then try again. Check the record is on the domain itself (`@`), not on a subdomain like `_polyembed`. Some providers add your domain to the name automatically: entering `example.com` as the name can create `example.com.example.com`.
+  </Accordion>
+  <Accordion title="Meta tag">
+    The homepage must return `200` over HTTPS without redirecting. If `example.com` redirects to `www.example.com`, verify `www.example.com` or use DNS. The tag must be in the server-rendered HTML, exactly as copied.
+  </Accordion>
+  <Accordion title="Static file">
+    Open `https://your-domain/.well-known/polyframe-verification.txt` in a private window. It must load directly, with only the token in the body. Some hosts block dot-folders like `/.well-known/` by default.
+  </Accordion>
+  <Accordion title="Bot protection">
+    Firewalls and bot protection can block the verifier. Allow the user agent `polyembed-domain-verifier/1.0`, or use the DNS method.
+  </Accordion>
+  <Accordion title="&quot;Accept the Publisher Terms to run verification&quot;">
+    Open **Agreements** in the dashboard and accept the Publisher Terms.
+  </Accordion>
+  <Accordion title="&quot;Registered to another publisher&quot;">
+    Another account already added this domain. If you own it, email [contact@polyembed.io](mailto:contact@polyembed.io).
+  </Accordion>
+</AccordionGroup>
+
+## Matches are wrong or weak
+
+- Add two to four specific keywords: names, places, tickers, events.
+- Remove generic keywords like section names.
+- Check that `title` is the headline, not your site name.
+
+See [Market matching](/publishers/market-matching).
+
+## Trading problems
+
+| Problem | Fix |
+| --- | --- |
+| No trade controls, odds only | Trading isn't available in the reader's region, or the check failed. See [Where trading is available](/readers/availability) |
+| "No browser wallet detected" | Install a browser wallet extension, or use **Continue with email** where offered |
+| Deposit not showing | Conversion usually takes a few minutes. Keep **Add funds** open to keep checking. See [Funding](/readers/funding#if-a-deposit-fails) |
+| "Polymarket rejected the order" | The price moved beyond 5% slippage or liquidity is thin. Try a smaller amount |
+
+## Still stuck?
+
+Email [contact@polyembed.io](mailto:contact@polyembed.io) with your widget ID, the article URL and a screenshot of any browser console errors.

@@ -1,0 +1,69 @@
+---
+title: "Quickstart"
+description: "Sign in, accept the agreements, verify your domain, create a widget and paste the snippet."
+icon: "rocket"
+---
+
+This guide takes you from a new account to live odds in your articles. It takes about ten minutes, plus any time your DNS provider needs to publish a record.
+
+## Prerequisites
+
+- A Google account or an email address you can receive mail at.
+- Access to your site's DNS, its HTML `<head>`, or a way to upload a file to `/.well-known/` on your domain.
+- Access to the template your CMS uses to render articles.
+
+## Set up PolyEmbed
+
+<Steps>
+  <Step title="Sign in to the publisher dashboard">
+    Go to [polyembed.io/publisher-login](https://polyembed.io/publisher-login) and continue with Google or an email sign-in link. Your publisher account is created on first sign-in.
+
+    See [Publisher account](/publishers/account).
+  </Step>
+  <Step title="Accept the publisher agreements">
+    Open **Agreements** in the dashboard and accept the Publisher Terms, the trading risk disclosure and the payout terms. The Publisher Terms are required before you can verify a domain.
+  </Step>
+  <Step title="Verify your domain">
+    Open **Domains**, add the site where your articles live, and choose a verification method:
+
+    - **DNS TXT record**: best for root domains.
+    - **HTML meta tag**: paste one tag into your homepage `<head>`.
+    - **Static file**: upload one text file to `/.well-known/polyframe-verification.txt`.
+
+    Publish the value the dashboard gives you, then click **Check verification**. Verifying `example.com` also covers `news.example.com` and every other subdomain.
+
+    See [Verify your domain](/publishers/verify-domain).
+  </Step>
+  <Step title="Create a widget">
+    Open **Widgets**, click **New widget**, and pick your verified domain. One widget serves every article on that domain.
+
+    See [Create a widget](/publishers/create-widget).
+  </Step>
+  <Step title="Paste the snippet into your article template">
+    Copy the embed code from the widget page and paste it once into the template that renders articles. Replace `{ARTICLE_TITLE}` and `{ARTICLE_KEYWORDS}` (shown URL-encoded as `%7BARTICLE_TITLE%7D` and `%7BARTICLE_KEYWORDS%7D`) with your CMS variables, URL-encoded.
+
+    ```html Article template
+    <iframe id="polyembed-YOUR_WIDGET_ID"
+      src="https://iframe.polyembed.io/embed/YOUR_WIDGET_ID?title=%7BARTICLE_TITLE%7D&keywords=%7BARTICLE_KEYWORDS%7D"
+      width="100%" height="260" style="border:0;max-width:560px;" loading="lazy"
+      allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"
+      title="Prediction market odds"></iframe>
+    <script>/* resize listener included in your dashboard snippet */</script>
+    ```
+
+    Copy the full snippet from the dashboard rather than this example: it includes the script that resizes the frame and collapses it when no market matches. On WordPress, use the [shortcode](/install/wordpress) instead.
+  </Step>
+  <Step title="Publish an article and check it">
+    Open a live article on your verified domain. If a relevant market is live, the widget shows it. If not, the widget collapses and leaves no gap. Impressions appear in **Analytics** as soon as a widget renders.
+
+    See [Test your embed](/install/test-your-embed).
+  </Step>
+</Steps>
+
+<Check>
+  Your widget is live. Next, read [How market matching works](/publishers/market-matching) to get tighter matches from your keywords.
+</Check>
+
+<Tip>
+  Need help? Email [contact@polyembed.io](mailto:contact@polyembed.io) or message [@polyembed](https://x.com/polyembed) on X.
+</Tip>

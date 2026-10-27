@@ -1,0 +1,52 @@
+---
+title: "Test your embed"
+description: "Preview matches for a headline, check the collapse behavior and confirm impressions before you roll out."
+icon: "flask"
+---
+
+## Preview a headline in the dashboard
+
+Open your widget in **Widgets** and use **Headline preview**. Type a headline to see the market PolyEmbed would match, rendered the way readers see it. If no live market is a close match, the preview tells you the widget would collapse to zero height on your page.
+
+## Try the public demo widget
+
+The demo widget renders anywhere, with no domain verification, so you can try titles and keywords before you have a widget:
+
+```text
+https://iframe.polyembed.io/embed/demo-widget?title=Fed%20rate%20decision&keywords=federal%20reserve
+```
+
+Add `debug=true` to see why a title does or doesn't match. When nothing clears the threshold, the debug panel lists every candidate market with its score breakdown instead of collapsing:
+
+```text
+https://iframe.polyembed.io/embed/demo-widget?title=Slow-roasted%20tomato%20soup&debug=true
+```
+
+<Note>
+  The demo widget doesn't record analytics, and trading on it may be turned off. Use your own widget on your verified domain to test the real flow.
+</Note>
+
+## Check your live page
+
+<Steps>
+  <Step title="Open a published article">
+    Load an article on your verified domain (or a subdomain of it). Opening the iframe URL directly in a browser tab won't work for your own widget: the widget authorizes requests by the embedding page's origin.
+  </Step>
+  <Step title="Check the frame">
+    For a story with a relevant market, you should see the market question, Yes and No odds, and trade controls. For a story with no relevant market, such as a recipe, the frame should disappear completely.
+  </Step>
+  <Step title="Check Analytics">
+    Open **Analytics** in the dashboard. Impressions appear as soon as a widget renders on a live page. A rising **Widget errors** count means something in your embed needs attention.
+  </Step>
+</Steps>
+
+## Checklist
+
+- [ ] The iframe `src` has your real widget ID, not `YOUR_WIDGET_ID`.
+- [ ] `title` contains the article headline, URL-encoded, with no leftover `{ARTICLE_TITLE}` or `%7BARTICLE_TITLE%7D`.
+- [ ] The listener script follows the iframe, and its `getElementById` value matches the iframe's `id`.
+- [ ] The page is on your verified domain or one of its subdomains.
+- [ ] Your CSP, if any, allows `frame-src https://iframe.polyembed.io`.
+- [ ] Articles with no relevant market leave no empty space.
+
+If something's wrong, see [Troubleshooting](/reference/troubleshooting).

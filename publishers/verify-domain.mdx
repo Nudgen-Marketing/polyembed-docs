@@ -1,0 +1,85 @@
+---
+title: "Verify your domain"
+description: "Prove you own the site where your articles live, using a DNS TXT record, a meta tag or a static file."
+icon: "badge-check"
+---
+
+Widgets only render on verified domains. Verifying a root domain covers all of its subdomains, so `news.example.com` works once `example.com` is verified.
+
+## Before you start
+
+- Accept the [Publisher Terms](/publishers/account#accept-the-agreements) in **Agreements**.
+- Decide which host to verify. In most cases, verify the root domain (`example.com`) so every subdomain is covered.
+
+<Info>
+  Each domain can belong to one publisher account. If you see "registered to another publisher" and you own the domain, email [contact@polyembed.io](mailto:contact@polyembed.io).
+</Info>
+
+## Add the domain
+
+<Steps>
+  <Step title="Open Domains">
+    In the dashboard, open **Domains** and enter the domain. You can paste a full URL such as `https://example.com/news`; PolyEmbed keeps only the host.
+  </Step>
+  <Step title="Choose a verification method">
+    Pick the method that fits how you manage your site. You can generate a new value later if you want to switch.
+  </Step>
+  <Step title="Publish the value">
+    Copy the value from the dashboard and publish it as described below.
+  </Step>
+  <Step title="Check verification">
+    Click **Check verification**. When it succeeds, the domain's status changes to **Verified** and you can create a widget for it.
+  </Step>
+</Steps>
+
+## Verification methods
+
+<Tabs>
+  <Tab title="DNS TXT record">
+    Best for root domains, and the only method that doesn't depend on your web server.
+
+    Add a TXT record at your DNS provider:
+
+    | Field | Value |
+    | --- | --- |
+    | Type | `TXT` |
+    | Name / Host | `@` (the domain itself, for example `example.com`) |
+    | Value | `pm-widget-verification=pub_…` (copy from the dashboard) |
+
+    DNS changes can take a few minutes to show up. PolyEmbed looks the record up through public DNS, so wait for your provider to publish it before checking.
+  </Tab>
+  <Tab title="HTML meta tag">
+    Paste the tag into the `<head>` of your homepage:
+
+    ```html
+    <meta name="pm-widget-verification" content="pub_…" />
+    ```
+
+    PolyEmbed fetches `https://example.com` (your domain's homepage over HTTPS) and looks for the tag in the HTML your server returns. The tag must be in the server-rendered HTML; tags injected by client-side JavaScript aren't seen.
+  </Tab>
+  <Tab title="Static file">
+    Upload a plain text file whose only content is the token:
+
+    | | |
+    | --- | --- |
+    | Path | `/.well-known/polyframe-verification.txt` |
+    | Content | `pub_…` (copy from the dashboard) |
+
+    PolyEmbed fetches `https://example.com/.well-known/polyframe-verification.txt` and compares the trimmed content to the token.
+  </Tab>
+</Tabs>
+
+<Warning>
+  For the meta tag and file methods, the URL must respond directly with `200 OK`. PolyEmbed doesn't follow redirects. If `example.com` redirects to `www.example.com`, either verify `www.example.com`, serve the file without a redirect, or use the DNS method. Each check times out after five seconds.
+</Warning>
+
+## Generate a new value
+
+Click **Generate a new value** on the domain to replace the token, for example to switch methods. The old value stops working immediately. If you see "This verification value was replaced in another tab or browser", someone generated a new one; publish the newest value shown.
+
+## After verification
+
+- Keep the record, tag or file in place. It's how you prove ownership if the domain is reviewed.
+- Create a widget for the domain: see [Create a widget](/publishers/create-widget).
+
+See [Domain verification reference](/reference/domain-verification) for exact formats.

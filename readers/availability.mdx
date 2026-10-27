@@ -1,0 +1,29 @@
+---
+title: "Where trading is available"
+description: "Why some readers see odds only, and how the widget decides whether trading is available."
+icon: "earth-americas"
+---
+
+Polymarket restricts trading in some countries and regions. Before showing any trade controls, the widget asks Polymarket's geoblock service whether trading is allowed for the reader's connection.
+
+| Result | What the reader sees |
+| --- | --- |
+| Allowed | Odds plus trade controls |
+| Blocked | "Trading on Polymarket isn't available in your region. You can still follow the odds here." |
+| Check couldn't complete | "We couldn't confirm trading is available where you are, so trading is turned off." |
+
+PolyEmbed's [Terms of Service](https://polyembed.io/terms) also don't permit trading by US persons or persons in other restricted jurisdictions, even where the region check passes. You must be 18 or older to trade.
+
+In every case, readers can still see the market's odds and follow the link to Polymarket.
+
+<Warning>
+  Don't use a VPN or other tools to get around regional restrictions. Polymarket's terms prohibit it, and PolyEmbed doesn't support it. See [Polymarket's Terms of Use](https://polymarket.com/tos).
+</Warning>
+
+## Trading can also be off when
+
+- Trading is turned off for the platform, for example during maintenance. The widget then shows odds only.
+- The market isn't accepting orders, for example just before resolution.
+- The outcome can't be traded from the widget. Open the market on Polymarket instead.
+
+For Polymarket's current list of restricted regions, see [Polymarket's documentation](https://docs.polymarket.com).

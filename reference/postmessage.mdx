@@ -1,0 +1,46 @@
+---
+title: "postMessage events"
+description: "Messages the widget sends to your page to resize or hide its iframe."
+icon: "message"
+---
+
+The widget talks to your page with [`window.postMessage`](https://developer.mozilla.org/docs/Web/API/Window/postMessage). The listener script in your snippet handles both messages. Read this page if you write your own listener, for example in a single-page app.
+
+## Messages
+
+<ResponseField name="polyembed:resize" type="{ type: 'polyembed:resize', height: number }">
+  Sent when the widget renders and whenever its content height changes, for example when the trade or funding panel opens. Set the iframe's height to `height` pixels. The reference listener clamps it to between 120 and 2000 pixels, falling back to 260.
+</ResponseField>
+
+<ResponseField name="polyembed:hide" type="{ type: 'polyembed:hide', height: 0 }">
+  Sent when no relevant market matches, or the widget isn't authorized to render on this page. Hide the iframe (`display: none`, height `0`), and any container around it, so the article shows no empty space.
+</ResponseField>
+
+The widget posts only to your page's origin, never to `*`.
+
+## Writing a listener
+
+Always check both the message origin and its source window before acting:
+
+```javascript Listener
+const frame = document.getElementById("polyembed-YOUR_WIDGET_ID");
+const widgetOrigin = new URL(frame.src).origin;
+
+window.addEventListener("message", (event) => {
+  if (event.origin !== widgetOrigin || event.source !== frame.contentWindow) return;
+  const data = event.data;
+  if (!data || typeof data.type !== "string") return;
+
+  if (data.type === "polyembed:hide") {
+    frame.style.display = "none";
+    frame.style.height = "0px";
+  } else if (data.type === "polyembed:resize" && data.height) {
+    frame.style.display = "block";
+    frame.style.height = `${Math.max(120, Math.min(2000, Number(data.height) || 260))}px`;
+  }
+});
+```
+
+<Tip>
+  Checking `event.source` matters when a page has more than one PolyEmbed iframe: each listener reacts only to its own frame.
+</Tip>

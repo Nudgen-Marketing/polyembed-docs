@@ -1,0 +1,78 @@
+---
+title: "WordPress"
+description: "Install the PolyEmbed plugin and add the [polyembed] shortcode to your posts or single-post template."
+icon: "wordpress"
+---
+
+The PolyEmbed WordPress plugin adds a `[polyembed]` shortcode. It fills in the post title for you, builds the iframe, and includes the resize and collapse script.
+
+## Install the plugin
+
+<Steps>
+  <Step title="Get the plugin">
+    Email [contact@polyembed.io](mailto:contact@polyembed.io) for the current `polyembed` plugin ZIP.
+    {/* TODO: Replace with a public download link once the plugin is published. */}
+  </Step>
+  <Step title="Upload it">
+    In WordPress, go to **Plugins > Add New > Upload Plugin**, choose the ZIP, and click **Install Now**.
+  </Step>
+  <Step title="Activate it">
+    Click **Activate**. The plugin is called **PolyEmbed Widget** in your plugin list.
+  </Step>
+</Steps>
+
+## Add the shortcode
+
+Copy the shortcode from the **WordPress** tab on your widget page:
+
+```text Shortcode
+[polyembed widget_id="YOUR_WIDGET_ID"]
+```
+
+Then add it where the widget should appear:
+
+<Tabs>
+  <Tab title="In one post">
+    In the block editor, add a **Shortcode** block and paste the shortcode.
+  </Tab>
+  <Tab title="In every post">
+    Add the shortcode to your theme's single-post template so every article gets a widget. In a block theme, edit the **Single Posts** template in **Appearance > Editor** and add a **Shortcode** block. In a classic theme, call it from `single.php`:
+
+    ```php single.php
+    <?php echo do_shortcode('[polyembed widget_id="YOUR_WIDGET_ID"]'); ?>
+    ```
+  </Tab>
+</Tabs>
+
+## Add keywords for tighter matches
+
+The shortcode uses the post title automatically. Add `keywords` to improve matching:
+
+```text
+[polyembed widget_id="YOUR_WIDGET_ID" keywords="federal reserve,interest rates"]
+```
+
+To use each post's tags as keywords in a template:
+
+```php single.php
+<?php
+$tags = wp_get_post_tags(get_the_ID(), ['fields' => 'names']);
+$keywords = implode(',', array_slice($tags, 0, 4));
+echo do_shortcode(sprintf(
+  '[polyembed widget_id="YOUR_WIDGET_ID" keywords="%s"]',
+  esc_attr($keywords)
+));
+?>
+```
+
+See the [shortcode reference](/reference/shortcode) for every attribute.
+
+## Signed snippets
+
+If your widget page shows a shortcode with `d`, `kv` and `sig` attributes, copy it exactly. Those attributes sign the snippet to your domain. If you rotate the embed key, replace the shortcode everywhere you use it. See [Embed security](/publishers/embed-security).
+
+## Caching and security plugins
+
+- Page caches are fine: the widget does its matching inside the iframe on every load.
+- If a security plugin sets a `Content-Security-Policy`, allow `frame-src https://iframe.polyembed.io`.
+- If an optimization plugin rewrites iframes (for example to lazy-load them), make sure it keeps the `referrerpolicy` attribute and the script that follows the iframe.
