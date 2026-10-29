@@ -49,6 +49,7 @@
               "publishers/market-matching",
               "publishers/analytics",
               "publishers/earnings",
+              "publishers/affiliate-program",
               "publishers/embed-security",
               "publishers/editorial-guidelines"
             ]
